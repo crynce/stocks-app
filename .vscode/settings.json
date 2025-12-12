@@ -1,0 +1,14 @@
+{
+  "css.lint.unknownAtRules": "ignore",
+  "css.lint.validProperties": ["composes"],
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.associations": {
+    "*.css": "css"
+  },
+  "postcss.enable": true,
+  "postcss.autoDetect": true,
+  "typescript.validate.enable": true,
+  "javascript.validate.enable": true
+}
