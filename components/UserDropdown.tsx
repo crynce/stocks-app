@@ -59,6 +59,7 @@ const UserDropdown = () => {
             </div>
           </div>
         </DropdownMenuLabel>
+        {/* "hi" */}
         <DropdownMenuSeparator className="bg-gray-600" />
         <DropdownMenuItem
           onClick={handleSignout}
