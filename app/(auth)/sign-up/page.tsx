@@ -65,6 +65,7 @@ const SignUp = () => {
           }}
           register={register}
           error={errors.email}
+          type="email"
         />
         <InputFields
           name="password"
