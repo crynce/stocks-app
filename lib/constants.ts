@@ -37,6 +37,7 @@ export const CONDITION_OPTIONS = [
 ];
 
 // TradingView Charts
+export const TRADINGVIEW_SCRIPT_BASE_URL = `https://s3.tradingview.com/external-embedding/embed-widget-`;
 export const MARKET_OVERVIEW_WIDGET_CONFIG = {
   colorTheme: "dark", // dark mode
   dateRange: "12M", // last 12 months
