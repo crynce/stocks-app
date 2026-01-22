@@ -13,15 +13,33 @@ import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { LogOut } from "lucide-react";
 import NavItems from "./NavItems";
+import { toast } from "sonner";
+import { signOut } from "@/lib/actions/auth.actions";
 
-const UserDropdown = () => {
+const UserDropdown = ({ user }: { user: User }) => {
   const router = useRouter();
 
-  const handleSignout = () => {
-    router.push("/sign-in");
+  const handleSignout = async () => {
+    try {
+      const result = await signOut();
+      // if (!result.success) {
+      //   throw result;
+      // }
+
+      if (result.success) {
+        console.log(result, "result");
+        // toast(result.messaage);
+        router.push("/sign-in");
+      }
+    } catch (error) {
+      console.log(error);
+      toast("Sign out failed", {
+        description:
+          error instanceof Error ? error.message : "Failed to sign out",
+      });
+    }
   };
 
-  const user = { name: "Shoz", email: "shoz@gmail.com" };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -64,7 +82,10 @@ const UserDropdown = () => {
           onClick={handleSignout}
           className="text-gray-100 text-md font-medium focus:bg-transparent focus:text-yellow-500 transition-colors cursor-pointer"
         >
-          <LogOut className="h-4 w-4 mr-2 hidden sm:block" />
+          <LogOut
+            className="h-4 w-4 mr-2 hidden sm:block"
+            onClick={handleSignout}
+          />
           Logout
         </DropdownMenuItem>
         <DropdownMenuSeparator className="hidden sm-block bg-gray-600" />
