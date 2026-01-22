@@ -1,22 +1,19 @@
 "use client";
 
-import CountrySelectField from "@/components/forms/CountrySelectField";
 import FooterLink from "@/components/forms/FooterLink";
 import InputFields from "@/components/forms/InputFields";
-import SelectField from "@/components/forms/SelectField";
 import { Button } from "@/components/ui/button";
-import {
-  INVESTMENT_GOALS,
-  PREFERRED_INDUSTRIES,
-  RISK_TOLERANCE_OPTIONS,
-} from "@/lib/constants";
+import { signInWithEmail } from "@/lib/actions/auth.actions";
+
+import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
 const SignUp = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors, isSubmitting },
   } = useForm<SignInFormData>({
     defaultValues: {
@@ -29,9 +26,20 @@ const SignUp = () => {
 
   const onSubmit = async (data: SignInFormData) => {
     try {
-      console.log(data, "data");
+      const result = await signInWithEmail(data);
+      if (!result.success) {
+        throw result.error;
+      }
+
+      toast("Sign in successful", {
+        description: "You are now logged in",
+      });
+      router.push("/");
     } catch (e) {
       console.error(e, "error");
+      toast("Sign in failed", {
+        description: e instanceof Error ? e.message : "Failed to sign in",
+      });
     }
   };
 
@@ -69,7 +77,7 @@ const SignUp = () => {
           disabled={isSubmitting}
           className="yellow-btn w-full mt-5"
         >
-          {isSubmitting ? "Creating Account" : "Log In"}
+          {isSubmitting ? "Signing In" : "Sign In"}
         </Button>
         <FooterLink
           text="Don't have an account ?"
