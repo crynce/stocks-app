@@ -1,5 +1,8 @@
 //nodemailer setup
-import { WELCOME_EMAIL_TEMPLATE } from "./templates";
+import {
+  NEWS_SUMMARY_EMAIL_TEMPLATE,
+  WELCOME_EMAIL_TEMPLATE,
+} from "./templates";
 import nodemailer from "nodemailer";
 
 export const transporter = nodemailer.createTransport({
@@ -28,6 +31,33 @@ export const sendWelcomeEmail = async ({
     to: email,
     subject: "Welcome to Stocks App - Your stock market tool is ready",
     text: "Thanks for joning Stocks app",
+    html: htmlTemplate,
+  };
+  await transporter.sendMail(mailOptions);
+};
+export interface NewsSummaryData {
+  email: string;
+  name: string;
+  date: string;
+  newsContent: string;
+}
+
+export const sendNewsSummaryEmail = async ({
+  email,
+  name,
+  date,
+  newsContent,
+}: NewsSummaryData) => {
+  const htmlTemplate = NEWS_SUMMARY_EMAIL_TEMPLATE.replace(
+    "{{date}}",
+    date,
+  ).replace("{{newsContent}}", newsContent);
+
+  const mailOptions = {
+    from: `"Stocks App" <stocksapp@gmail.com>`,
+    to: email,
+    subject: "Daily News Summary - Stay updated with the market",
+    text: `Hi ${name}, here is your news summary for today - ${date}.`,
     html: htmlTemplate,
   };
   await transporter.sendMail(mailOptions);
