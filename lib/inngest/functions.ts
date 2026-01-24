@@ -2,7 +2,7 @@ import { getNews } from "../actions/finnhub.actions";
 import { getAllUsersForNewsEmail } from "../actions/user.actions";
 import { getWatchlistSymbolsByEmail } from "../actions/watchlist.actions";
 import { sendNewsSummaryEmail, sendWelcomeEmail } from "../nodemailer";
-import { formatDateToday } from "../utils";
+import { getFormattedTodayDate } from "../utils";
 import { inngest } from "./client";
 import {
   NEWS_SUMMARY_EMAIL_PROMPT,
@@ -142,10 +142,10 @@ export const sendDailyNewsSummary = inngest.createFunction(
           if (!newsContent) {
             return false;
           }
-          await sendNewsSummaryEmail({
+          return await sendNewsSummaryEmail({
             email: user.email,
             name: user.name,
-            date: formatDateToday,
+            date: getFormattedTodayDate(),
             newsContent,
           });
         }),

@@ -16,7 +16,6 @@ export const getWatchlistSymbolsByEmail = async (
     const user = await db.collection("user").findOne({ email });
 
     if (!user) {
-      console.warn(`User with email ${email} not found.`);
       return [];
     }
 
