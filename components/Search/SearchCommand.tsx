@@ -8,9 +8,10 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
-import { Loader2, TrendingUp } from "lucide-react";
+import { Loader2, Star, TrendingUp } from "lucide-react";
 import Link from "next/link";
-// import { searchStocks } from "@/lib/actions/finnhub.actions";
+import { searchStocks } from "@/lib/actions/finnhub.actions";
+import { useDebounce } from "@/hooks/useDebounce";
 // import { useDebounce } from "@/hooks/useDebounce";
 
 export default function SearchCommand({
@@ -42,21 +43,21 @@ export default function SearchCommand({
     if (!isSearchMode) return setStocks(initialStocks);
 
     setLoading(true);
-    // try {
-    //   const results = await searchStocks(searchTerm.trim());
-    //   setStocks(results);
-    // } catch {
-    //   setStocks([]);
-    // } finally {
-    //   setLoading(false);
-    // }
+    try {
+      const results = await searchStocks(searchTerm.trim());
+      setStocks(results);
+    } catch {
+      setStocks([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  //   const debouncedSearch = useDebounce(handleSearch, 300);
+  const debouncedSearch = useDebounce(handleSearch, 300);
 
-  //   useEffect(() => {
-  //     debouncedSearch();
-  //   }, [searchTerm]);
+  useEffect(() => {
+    debouncedSearch();
+  }, [searchTerm]);
 
   const handleSelectStock = () => {
     setOpen(false);
@@ -118,7 +119,7 @@ export default function SearchCommand({
                         {stock.symbol} | {stock.exchange} | {stock.type}
                       </div>
                     </div>
-                    {/*<Star />*/}
+                    <Star />
                   </Link>
                 </li>
               ))}
