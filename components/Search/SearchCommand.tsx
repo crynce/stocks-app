@@ -42,21 +42,21 @@ export default function SearchCommand({
     if (!isSearchMode) return setStocks(initialStocks);
 
     setLoading(true);
-    try {
-      const results = await searchStocks(searchTerm.trim());
-      setStocks(results);
-    } catch {
-      setStocks([]);
-    } finally {
-      setLoading(false);
-    }
+    // try {
+    //   const results = await searchStocks(searchTerm.trim());
+    //   setStocks(results);
+    // } catch {
+    //   setStocks([]);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
-  const debouncedSearch = useDebounce(handleSearch, 300);
+  //   const debouncedSearch = useDebounce(handleSearch, 300);
 
-  useEffect(() => {
-    debouncedSearch();
-  }, [searchTerm]);
+  //   useEffect(() => {
+  //     debouncedSearch();
+  //   }, [searchTerm]);
 
   const handleSelectStock = () => {
     setOpen(false);
